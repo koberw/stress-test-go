@@ -1,4 +1,4 @@
-module stress_test_go
+module stress_test-go
 
 go 1.25.2
 

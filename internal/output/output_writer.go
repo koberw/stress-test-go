@@ -3,9 +3,9 @@ package output
 import (
 	"fmt"
 	"os"
-	"path/filepath"
-	"runtime"
 	"sync"
+
+	tools "stress_test-go/internal"
 )
 
 var OutputDirPath string
@@ -18,7 +18,7 @@ var (
 )
 
 func Init(testId string) {
-	OutputDirPath = getDirPath()
+	OutputDirPath = tools.GetReportsPath()
 	testTaskPath := OutputDirPath + "/" + testId
 	recordsPath := testTaskPath + "/records"
 	fmt.Println("outpur records -> " + recordsPath)
@@ -45,18 +45,6 @@ func Init(testId string) {
 			return
 		}
 	})
-}
-
-func getDirPath() string {
-	_, filename, _, ok := runtime.Caller(0) // 0 表示当前函数所在文件
-	if !ok {
-		panic("无法获取当前文件信息")
-	}
-
-	// 获取可执行文件所在的目录
-	exeDir := filepath.Dir(filename)
-	fmt.Println("output根目录:", exeDir)
-	return exeDir
 }
 
 func WriteLineToRecords(line string) error {

@@ -26,6 +26,9 @@ go.work.sum
 
 # Editor/IDE
 # .idea/
-# .vscode/
+.vscode/
+
+# 自定义目录
+reports
 
  
