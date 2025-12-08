@@ -7,23 +7,23 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"os"
-	"strings"
 	"time"
-
-	"github.com/google/uuid"
 
 	tools "stress_test-go/internal"
 	"stress_test-go/internal/output"
+
+	"github.com/google/uuid"
 )
 
-type XhubTask struct {
+type GooleTask struct {
 	queryList []string
 }
 
 // 构造函数，初始化queryList
-func NewXhubTask() *XhubTask {
-	return &XhubTask{
+func NewGoogleTask() *GooleTask {
+	return &GooleTask{
 		queryList: loadQueries(),
 	}
 }
@@ -59,21 +59,16 @@ func loadQueries() []string {
 }
 
 // 执行单个 HTTP 请求
-func (xhub *XhubTask) DoRequest() {
+func (google *GooleTask) DoRequest() {
 	requestId := uuid.New().String()
-	url := "http://xhub.xsearch.woa.com/tianji/SearchPassage"
-
 	//随机选择一个query
-	randomIndex := rand.Intn(len(xhub.queryList))
-	query := xhub.queryList[randomIndex]
+	randomIndex := rand.Intn(len(google.queryList))
+	query := google.queryList[randomIndex]
 	//fmt.Printf("use query: %v\t%s\n", randomIndex, query)
-
-	requestBody := "{\"requestHeader\":{\"requestId\":\"" + requestId + "\",\"sessionId\":\"" + requestId +
-		"\",\"guid\":\"10004\",\"scene\":{\"id\":\"10004\"}},\"queryGroup\":{\"originQuery\":\"" + query +
-		"\",\"allQueries\":[{\"query\":\"" + query + "\"}]},\"requestType\":\"FROM_COMMON_SEARCH\",\"extends\":{}}"
+	url := "https://www.google.com/search?q=" + url.QueryEscape(query)
 
 	// 创建一个新的请求
-	req, err := http.NewRequest("POST", url, strings.NewReader(requestBody))
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Fatal("创建请求失败:", err)
 	}

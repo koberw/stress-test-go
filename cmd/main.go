@@ -98,7 +98,7 @@ func main() {
 	fmt.Printf("测试ID：" + testId)
 
 	//自定义任务
-	customTask = custom.NewXhubTask()
+	customTask = custom.NewGoogleTask()
 
 	runTask(threadCount, qps, durationSec)
 }
